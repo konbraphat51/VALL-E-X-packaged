@@ -29,7 +29,7 @@ import torch.nn.functional as F
 from torch import Tensor
 from torch.nn import Embedding as ScaledEmbedding
 
-from utils import Transpose
+from ..utils import Transpose
 
 
 class ActivationBalancerFunction(torch.autograd.Function):
@@ -416,7 +416,7 @@ class BasicNorm(torch.nn.Module):
             # range noisy.
 
             # gradients to allow the parameter to get back into the allowed
-            # region if it happens to exit it.
+            # _region if it happens to exit it.
             eps = eps.clamp(min=self.eps_min, max=self.eps_max)
         scales = (
             torch.mean(x ** 2, dim=self.channel_dim, keepdim=True) + eps.exp()

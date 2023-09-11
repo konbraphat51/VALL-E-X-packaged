@@ -1,6 +1,8 @@
+import pathlib
+
 """ from https://github.com/keithito/tacotron """
-import utils.g2p.cleaners
-from utils.g2p.symbols import symbols
+from . import cleaners
+from .symbols import symbols
 from tokenizers import Tokenizer
 
 # Mappings from symbol to numeric ID and vice versa:
@@ -9,7 +11,7 @@ _id_to_symbol = {i: s for i, s in enumerate(symbols)}
 
 
 class PhonemeBpeTokenizer:
-  def __init__(self, tokenizer_path = "./utils/g2p/bpe_1024.json"):
+  def __init__(self, tokenizer_path = (pathlib.Path(__file__).parent / "bpe_1024.json").as_posix()):
     self.tokenizer = Tokenizer.from_file(tokenizer_path)
 
   def tokenize(self, text):
@@ -65,7 +67,7 @@ def sequence_to_text(sequence):
 
 def _clean_text(text, cleaner_names):
   for name in cleaner_names:
-    cleaner = getattr(utils.g2p.cleaners, name)
+    cleaner = getattr(cleaners, name)
     if not cleaner:
       raise Exception('Unknown cleaner: %s' % name)
     text, langs = cleaner(text)

@@ -7,16 +7,18 @@ import whisper
 langid.set_languages(['en', 'zh', 'ja'])
 
 import numpy as np
-from data.tokenizer import (
+from ..data.tokenizer import (
     AudioTokenizer,
     tokenize_audio,
 )
-from data.collation import get_text_token_collater
-from utils.g2p import PhonemeBpeTokenizer
+from ..data.collation import get_text_token_collater
+from ..utils.g2p import PhonemeBpeTokenizer
 
-from macros import *
+from ..macros import *
 
-text_tokenizer = PhonemeBpeTokenizer(tokenizer_path="./utils/g2p/bpe_69.json")
+import pathlib
+
+text_tokenizer = PhonemeBpeTokenizer(tokenizer_path=(pathlib.Path(__file__).parent / "g2p" / "bpe_69.json").as_posix())
 text_collater = get_text_token_collater()
 
 device = torch.device("cpu")
